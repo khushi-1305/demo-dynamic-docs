@@ -61,7 +61,7 @@ export class HeaderComponent {
           let path = item.name.includes(' ') 
             ? item.name.replace(' ', '-').toLocaleLowerCase() 
             : item.name.toLocaleLowerCase();
-          this.routes.push({
+          !this.routes.find(route => route.path == path) && this.routes.push({
             path: path,
             data: { label: item.name },
             component: GetStartedComponent
