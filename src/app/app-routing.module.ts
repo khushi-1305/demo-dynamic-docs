@@ -1,5 +1,5 @@
-import { Component, NgModule } from '@angular/core';
-import { ROUTES, RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { GetStartedComponent } from './get-started/get-started.component';
 
 const routes: Routes = [
@@ -26,23 +26,6 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
   ],
-  exports: [RouterModule],
-  providers: [
-    // {
-    //   provide: ROUTES,
-    //   useFactory: () => {
-    //     let dynamicRoutes: Routes = [];
-    //     const tmpCmp = Component({template: ''})(class {});
-
-    //     dynamicRoutes.push({
-    //       path: 'authorization',
-    //       component: tmpCmp
-    //     })
-
-    //     return [...routes, ...dynamicRoutes];
-    //   },
-    //   multi: true
-    // }
-  ]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

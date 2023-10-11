@@ -18,12 +18,12 @@ export class HeaderComponent {
   url!: string;
   repoUrl!: string;
 
-  constructor(@Inject(DOCUMENT) private document: Document, private router: Router, 
-  private sharedService: SharedService, private http: HttpClient
+  constructor(@Inject(DOCUMENT) private document: Document, 
+    private router: Router, 
+    private sharedService: SharedService, 
+    private http: HttpClient
   ) {
     this.routes = [];
-    // this.repoUrl = 'simptel/docs.simptel.com';
-    // this.getRoutes();
   }
 
   toggleTheme(): void {
@@ -53,10 +53,13 @@ export class HeaderComponent {
   }
 
   getRoutes() {
-    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs`).subscribe(res => {
+    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs`)
+    .subscribe(res => {
       if (res instanceof Array) {
         res.forEach(item => {
-          let path = item.name.includes(' ') ? item.name.replace(' ', '-').toLocaleLowerCase() : item.name.toLocaleLowerCase();
+          let path = item.name.includes(' ') 
+            ? item.name.replace(' ', '-').toLocaleLowerCase() 
+            : item.name.toLocaleLowerCase();
           this.routes.push({
             path: path,
             data: { label: item.name },

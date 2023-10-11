@@ -13,25 +13,31 @@ export class GetStartedComponent {
   url!: string;
   path!: string;
 
-  constructor(private sharedService: SharedService, private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private sharedService: SharedService, 
+    private route: ActivatedRoute, 
+    private http: HttpClient
+  ) {
     this.getRepoUrl();
-    
-      this.path = route.snapshot.data['label'] || 'Getting Started';
-
-      this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}`).subscribe(res => {
-        if (res instanceof Array) {
-          res.forEach(item => {
-            if (item.name == 'overview.md' || item.name == 'pre-requisits.md') {
-              this.url = item.download_url;
-            }
-          });
-        }
-      });
+    this.showDocs();
   }
 
   getRepoUrl() {
     this.sharedService.getRepoUrl().subscribe(url => {
       this.repoUrl = url;
+    });
+  }
+
+  showDocs() {
+    this.path = this.route.snapshot.data['label'] || 'Getting Started';
+    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}`)
+    .subscribe(res => {
+      if (res instanceof Array) {
+        res.forEach(item => {
+          if (item.name == 'overview.md' || item.name == 'pre-requisits.md') {
+            this.url = item.download_url;
+          }
+        });
+      }
     });
   }
 }
