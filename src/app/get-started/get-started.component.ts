@@ -9,12 +9,13 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./get-started.component.scss']
 })
 export class GetStartedComponent {
-  repoUrl!: string;
-  url!: string;
-  dirUrl!: string;
-  path!: string;
+  repoName!: string;
+  pageUrl!: string;
+  directoryUrl!: string;
+  pageName!: string;
 
-  constructor(private sharedService: SharedService, 
+  constructor(
+    private sharedService: SharedService, 
     private route: ActivatedRoute, 
     private http: HttpClient
   ) {
@@ -24,20 +25,20 @@ export class GetStartedComponent {
 
   getRepoUrl() {
     this.sharedService.getRepoUrl().subscribe(url => {
-      this.repoUrl = url;
+      this.repoName = url;
     });
   }
 
   showDocs() {
-    this.path = this.route.snapshot.data['label'] || 'Getting Started';
-    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}`)
+    this.pageName = this.route.snapshot.data['label'] || 'Getting Started';
+    this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}`)
     .subscribe(res => {
       if (res instanceof Array) {
         res.forEach(item => {
           if (item.type == 'dir') {
             this.showDirectoryFiles(item);
           } else if (item.type == 'file') {
-            this.url = this.getDownloadUrl(item);
+            this.pageUrl = this.getDownloadUrl(item);
           }
         });
       }
@@ -45,11 +46,11 @@ export class GetStartedComponent {
   }
 
   showDirectoryFiles(item: any) {
-    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}/${item.name}`)
-    .subscribe(dirRes => {
-      if (dirRes instanceof Array) {
-        dirRes.forEach(file => {
-          this.dirUrl = this.getDownloadUrl(file);
+    this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}/${item.name}`)
+    .subscribe(res => {
+      if (res instanceof Array) {
+        res.forEach(file => {
+          this.directoryUrl = this.getDownloadUrl(file);
         });
       }
     });

@@ -18,7 +18,8 @@ export class HeaderComponent {
   url!: string;
   repoUrl!: string;
 
-  constructor(@Inject(DOCUMENT) private document: Document, 
+  constructor(
+    @Inject(DOCUMENT) private document: Document, 
     private router: Router, 
     private sharedService: SharedService, 
     private http: HttpClient

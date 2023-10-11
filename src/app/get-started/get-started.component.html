@@ -1,15 +1,15 @@
 <h1 id="getting-started" class="font-bold dark:text-white text-2xl mb-5">
-  {{path}}
+  {{ pageName }}
 </h1>
 
 <markdown 
   class="prose dark:prose-invert dark:prose-cyan"
-  [src]="url"
+  [src]="pageUrl"
 ></markdown>
 
-<div *ngIf="dirUrl">
+<div *ngIf="directoryUrl" class="mt-5">
   <markdown 
     class="prose dark:prose-invert dark:prose-cyan"
-    [src]="dirUrl"
+    [src]="directoryUrl"
   ></markdown>
 </div>
