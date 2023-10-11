@@ -16,7 +16,7 @@ export class HeaderComponent {
   theme = 'light';
   showMenu = true;
   url!: string;
-  repoUrl!: string;
+  repoName!: string;
 
   constructor(
     @Inject(DOCUMENT) private document: Document, 
@@ -45,16 +45,16 @@ export class HeaderComponent {
 
   showDocs(): void {
     if (!this.url) {
-      this.repoUrl = 'https://github.com/simptel/docs.simptel.com';
+      this.repoName = 'simptel/docs.simptel.com';
     } else {
-      this.repoUrl = this.url.substring(19, this.url.length);
+      this.repoName = this.url.substring(19, this.url.length);
     }
-    this.sharedService.saveRepoUrl(this.repoUrl);
+    this.sharedService.saveRepoUrl(this.repoName);
     this.getRoutes();
   }
 
   getRoutes() {
-    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs`)
+    this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs`)
     .subscribe(res => {
       if (res instanceof Array) {
         res.forEach(item => {
