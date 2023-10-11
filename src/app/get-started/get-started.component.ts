@@ -11,13 +11,14 @@ import { HttpClient } from '@angular/common/http';
 export class GetStartedComponent {
   repoUrl!: string;
   url!: string;
+  path!: string;
 
   constructor(private sharedService: SharedService, private route: ActivatedRoute, private http: HttpClient) {
     this.getRepoUrl();
     
-      let path = route.snapshot.data['label'] || 'Getting Started';
+      this.path = route.snapshot.data['label'] || 'Getting Started';
 
-      this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${path}`).subscribe(res => {
+      this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}`).subscribe(res => {
         if (res instanceof Array) {
           res.forEach(item => {
             if (item.name == 'overview.md' || item.name == 'pre-requisits.md') {
