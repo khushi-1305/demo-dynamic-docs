@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class GetStartedComponent {
   repoUrl!: string;
   url!: string;
+  dirUrl!: string;
   path!: string;
 
   constructor(private sharedService: SharedService, 
@@ -33,11 +34,31 @@ export class GetStartedComponent {
     .subscribe(res => {
       if (res instanceof Array) {
         res.forEach(item => {
-          if (item.name == 'overview.md' || item.name == 'pre-requisits.md') {
-            this.url = item.download_url;
+          if (item.type == 'dir') {
+            this.showDirectoryFiles(item);
+          } else if (item.type == 'file') {
+            this.url = this.getDownloadUrl(item);
           }
         });
       }
     });
+  }
+
+  showDirectoryFiles(item: any) {
+    this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${this.path}/${item.name}`)
+    .subscribe(dirRes => {
+      if (dirRes instanceof Array) {
+        dirRes.forEach(file => {
+          this.dirUrl = this.getDownloadUrl(file);
+        });
+      }
+    });
+  }
+
+  getDownloadUrl(item: any) {
+    let ext = item.name.substring(item.name.length-2, item.name.length);
+    if (ext == 'md') {
+      return item.download_url;
+    }
   }
 }

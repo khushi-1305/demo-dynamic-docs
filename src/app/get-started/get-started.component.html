@@ -1,7 +1,15 @@
 <h1 id="getting-started" class="font-bold dark:text-white text-2xl mb-5">
   {{path}}
 </h1>
+
 <markdown 
   class="prose dark:prose-invert dark:prose-cyan"
   [src]="url"
 ></markdown>
+
+<div *ngIf="dirUrl">
+  <markdown 
+    class="prose dark:prose-invert dark:prose-cyan"
+    [src]="dirUrl"
+  ></markdown>
+</div>
