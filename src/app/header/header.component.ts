@@ -22,6 +22,8 @@ export class HeaderComponent {
   private sharedService: SharedService, private http: HttpClient
   ) {
     this.routes = [];
+    // this.repoUrl = 'simptel/docs.simptel.com';
+    // this.getRoutes();
   }
 
   toggleTheme(): void {

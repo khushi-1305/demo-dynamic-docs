@@ -15,21 +15,17 @@ export class GetStartedComponent {
   constructor(private sharedService: SharedService, private route: ActivatedRoute, private http: HttpClient) {
     this.getRepoUrl();
     
-    route.url.subscribe(params => {
-      // console.log(params);
-      let path = route.snapshot.data['label'];
-      http.get('https://api.github.com').subscribe(res => {
-        console.log(res);
-      })
+      let path = route.snapshot.data['label'] || 'Getting Started';
+
       this.http.get(`https://api.github.com/repos/${this.repoUrl}/contents/docs/${path}`).subscribe(res => {
         if (res instanceof Array) {
           res.forEach(item => {
-            console.log(item);
+            if (item.name == 'overview.md' || item.name == 'pre-requisits.md') {
+              this.url = item.download_url;
+            }
           });
         }
       });
-    });
-
   }
 
   getRepoUrl() {
