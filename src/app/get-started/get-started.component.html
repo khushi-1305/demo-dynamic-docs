@@ -17,7 +17,7 @@
               class="h-4 w-4 mt-1 mr-2"
               [ngClass]="{'rotate-180': showItems === i}"
             >
-            <div>
+            <div [ngClass]="{'font-medium': showItems === i}">
               {{ d.key == 'name' ? d.value : '' }} 
             </div>
           </div>
