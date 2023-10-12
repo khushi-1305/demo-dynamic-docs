@@ -1,4 +1,5 @@
-<nav class="bg-gray-800 fixed w-full drop-shadow-md z-10">
+<div class="w-full">
+  <nav class="bg-gray-800 fixed w-full drop-shadow-md z-10">
     <div class="mx-auto max-w-6xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -74,7 +75,7 @@
             'text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'"
           routerLinkActive>
           <div class="flex" fxLayoutGap="8px">
-            <img src="assets/icon-{{route.path}}.svg">
+            <!-- <img src="assets/icon-{{route.path}}.svg"> -->
             <span>{{ route.data?.['label'] }}</span>
           </div>
         </a>
@@ -82,15 +83,19 @@
     </div>
 </nav>
 
-<input 
-  type="text" 
-  [(ngModel)]="url"
-  placeholder="Your Github Repo Link" 
-  class="rounded-md mt-20 p-3 w-1/2 border border-gray-500 ml-10"
->
+<div class="w-full relative left-[20%] dark:bg-gray-900">
+  <input 
+    type="text" 
+    [(ngModel)]="url"
+    placeholder="Your Github Repo Link" 
+    class="rounded-md mt-20 p-3 w-1/2 border border-gray-500 ml-10"
+  >
 
-<button
-  (click)="showDocs()"
-  class="bg-gray-800 mt-20 text-slate-100 p-3 rounded-md ml-5">
-  Show Docs
-</button>
+  <button
+    (click)="showDocs()"
+    class="bg-gray-800 mt-20 text-slate-100 p-3 rounded-md ml-1">
+    Show Docs
+  </button>
+</div>
+
+</div>

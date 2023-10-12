@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -13,11 +13,16 @@ export class GetStartedComponent {
   pageUrl!: string;
   directoryUrl!: string;
   pageName!: string;
+  directories!: Object;
+  subDirectories!: Object;
+  files!: Object;
+  isMenuOpen: boolean = true;
 
   constructor(
     private sharedService: SharedService, 
     private route: ActivatedRoute, 
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.getRepoUrl();
     this.showDocs();
@@ -29,14 +34,39 @@ export class GetStartedComponent {
     });
   }
 
+  openSubMenu(path:string) {
+    path = path.replace(' ', '-').toLowerCase();
+    this.router.navigateByUrl(path);
+    this.getMenuItems()
+  }
+
+  getMenuItems() {
+    this.pageName = this.route.snapshot.data['label'] || 'Getting Started';
+
+    this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs`)
+    .subscribe(res => {
+      this.directories = res;
+
+      // this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}`)
+      // .subscribe(res2 => {
+      //   this.subDirectories = res2;
+      //   console.log(this.subDirectories);
+      // })
+    });
+  }
+
   showDocs() {
+    this.getMenuItems();
     this.pageName = this.route.snapshot.data['label'] || 'Getting Started';
     this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}`)
-    .subscribe(res => {
+    .subscribe(res => {      
+      this.files = res;
       if (res instanceof Array) {
         res.forEach(item => {
           if (item.type == 'dir') {
             this.showDirectoryFiles(item);
+            this.subDirectories = item;
+            console.log(this.subDirectories);
           } else if (item.type == 'file') {
             this.pageUrl = this.getDownloadUrl(item);
           }
@@ -45,6 +75,10 @@ export class GetStartedComponent {
     });
   }
 
+  check(value:any) {
+    value as string
+    return value.includes(this.pageName)
+  }
   showDirectoryFiles(item: any) {
     this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}/${item.name}`)
     .subscribe(res => {

@@ -1,15 +1,62 @@
-<h1 id="getting-started" class="font-bold dark:text-white text-2xl mb-5">
-  {{ pageName }}
-</h1>
-
-<markdown 
-  class="prose dark:prose-invert dark:prose-cyan"
-  [src]="pageUrl"
-></markdown>
-
-<div *ngIf="directoryUrl" class="mt-5">
-  <markdown 
-    class="prose dark:prose-invert dark:prose-cyan"
-    [src]="directoryUrl"
-  ></markdown>
+<div class="w-full h-full flex flex-row mt-5">
+  <div class="h-full w-[20%] fixed left-0 top-16 bg-gray-200 dark:bg-gray-800 drop-shadow-xl dark:text-white overflow-auto">
+    <div *ngFor="let dir of directories | keyvalue" class="mt-5">
+      <div *ngFor="let d of dir.value | keyvalue" class="ml-16">
+        <div 
+          class="cursor-pointer hover:font-medium"
+          (click)="openSubMenu(d.key == 'name' ? d.value : '')"> 
+          <div 
+            class="flex" 
+            (click)="isMenuOpen ? isMenuOpen=false : isMenuOpen=true"
+          >
+            <img src="assets/expand-menu.png" 
+              alt="expand-menu" 
+              *ngIf="!isMenuOpen && d.key == 'name' ? d.value : false" 
+              class="h-4 w-4 mt-1 mr-2"
+            >
+            <img src="assets/expand-menu.png" 
+              alt="expand-menu" 
+              *ngIf="isMenuOpen && d.key == 'name' ? d.value : false" 
+              class="h-4 w-4 mt-1 mr-2 rotate-180"
+            >
+            <div>
+              {{ d.key == 'name' ? d.value : '' }} 
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngFor="let sub of subDirectories | keyvalue">
+          <div *ngIf="pageName == d.value && isMenuOpen"
+            class="cursor-pointer hover:font-medium mt-3 ml-8">
+            {{ sub.key.includes('name') ? sub.value : '' }}
+          </div>
+        </div> -->
+        <div *ngFor="let file of files | keyvalue">
+          <div *ngFor="let f of file.value | keyvalue">
+            <div *ngIf="pageName == d.value && isMenuOpen" class="cursor-pointer hover:font-medium mt-3 ml-8">
+              {{ f.key.includes('name') ? f.value : '' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="w-[80%] h-full relative left-[10%] min-h-screen">
+    <h1 id="getting-started" class="font-bold dark:text-white text-2xl mb-5">
+      {{ pageName }}
+    </h1>
+    
+    <markdown 
+      class="prose dark:prose-invert dark:prose-cyan"
+      [src]="pageUrl"
+    ></markdown>
+    
+    <div *ngIf="directoryUrl" class="mt-5">
+      <markdown 
+        class="prose dark:prose-invert dark:prose-cyan"
+        [src]="directoryUrl"
+      ></markdown>
+    </div>
+  </div>
 </div>
+
