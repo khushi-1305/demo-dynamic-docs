@@ -1,6 +1,6 @@
 <div class="w-full h-full flex flex-row mt-5">
   <div 
-    class="h-full w-[20%] fixed left-0 top-16 bg-gray-200 dark:bg-gray-800 drop-shadow-xl dark:text-white overflow-auto"
+    class="h-full hidden sm:block w-[20%] fixed left-0 top-16 bg-gray-200 dark:bg-gray-800 drop-shadow-xl dark:text-white overflow-auto"
     >
     <div *ngFor="let dir of directories | keyvalue; index as i" class="mt-5">
       <div *ngFor="let d of dir.value | keyvalue" class="ml-16">
