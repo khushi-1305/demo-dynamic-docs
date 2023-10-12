@@ -39,6 +39,12 @@ export class GetStartedComponent {
     this.getMenuItems()
   }
 
+  toggleSubMenu() {
+    this.isMenuOpen ? 
+      this.isMenuOpen = false : 
+      this.isMenuOpen = true;
+  }
+
   getMenuItems() {
     this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs`)
     .subscribe(res => {
