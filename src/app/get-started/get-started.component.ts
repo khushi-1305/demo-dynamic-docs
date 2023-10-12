@@ -15,7 +15,7 @@ export class GetStartedComponent {
   pageName!: string;
   directories!: Object;
   files!: Object;
-  isMenuOpen: boolean = true;
+  showItems: number = -1;
 
   constructor(
     private sharedService: SharedService, 
@@ -36,13 +36,15 @@ export class GetStartedComponent {
   openSubMenu(path:string) {
     path = path.replace(' ', '-').toLowerCase();
     this.router.navigateByUrl(path);
-    this.getMenuItems()
+    this.getMenuItems();
   }
 
-  toggleSubMenu() {
-    this.isMenuOpen ? 
-      this.isMenuOpen = false : 
-      this.isMenuOpen = true;
+  toggleSubMenu(i: number) {
+    if (this.showItems === i) {
+      this.showItems = -1;
+    } else {
+      this.showItems = i;
+    }
   }
 
   getMenuItems() {

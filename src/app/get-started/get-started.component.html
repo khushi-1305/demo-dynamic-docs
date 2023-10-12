@@ -2,24 +2,20 @@
   <div 
     class="h-full w-[20%] fixed left-0 top-16 bg-gray-200 dark:bg-gray-800 drop-shadow-xl dark:text-white overflow-auto"
     >
-    <div *ngFor="let dir of directories | keyvalue" class="mt-5">
+    <div *ngFor="let dir of directories | keyvalue; index as i" class="mt-5">
       <div *ngFor="let d of dir.value | keyvalue" class="ml-16">
         <div 
           class="cursor-pointer hover:font-medium"
           (click)="openSubMenu(d.key == 'name' ? d.value : '')"> 
           <div 
             class="flex" 
-            (click)="toggleSubMenu()"
+            (click)="toggleSubMenu(i)"
           >
             <img src="assets/expand-menu.png" 
               alt="expand-menu" 
-              *ngIf="!isMenuOpen && d.key == 'name' ? d.value : false" 
+              *ngIf="d.key == 'name' ? d.value : false" 
               class="h-4 w-4 mt-1 mr-2"
-            >
-            <img src="assets/expand-menu.png" 
-              alt="expand-menu" 
-              *ngIf="isMenuOpen && d.key == 'name' ? d.value : false" 
-              class="h-4 w-4 mt-1 mr-2 rotate-180"
+              [ngClass]="{'rotate-180': showItems === i}"
             >
             <div>
               {{ d.key == 'name' ? d.value : '' }} 
@@ -29,7 +25,7 @@
         <div *ngFor="let file of files | keyvalue">
           <div *ngFor="let f of file.value | keyvalue">
             <div 
-              *ngIf="pageName == d.value && isMenuOpen" 
+              *ngIf="pageName == d.value" 
               class="cursor-pointer hover:font-medium mt-3 ml-8"
             >
               {{ f.key.includes('name') ? f.value : '' }}
