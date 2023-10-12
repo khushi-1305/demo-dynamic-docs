@@ -24,12 +24,6 @@
             </div>
           </div>
         </div>
-        <!-- <div *ngFor="let sub of subDirectories | keyvalue">
-          <div *ngIf="pageName == d.value && isMenuOpen"
-            class="cursor-pointer hover:font-medium mt-3 ml-8">
-            {{ sub.key.includes('name') ? sub.value : '' }}
-          </div>
-        </div> -->
         <div *ngFor="let file of files | keyvalue">
           <div *ngFor="let f of file.value | keyvalue">
             <div *ngIf="pageName == d.value && isMenuOpen" class="cursor-pointer hover:font-medium mt-3 ml-8">

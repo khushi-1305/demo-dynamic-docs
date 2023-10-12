@@ -14,7 +14,6 @@ export class GetStartedComponent {
   directoryUrl!: string;
   pageName!: string;
   directories!: Object;
-  subDirectories!: Object;
   files!: Object;
   isMenuOpen: boolean = true;
 
@@ -41,17 +40,9 @@ export class GetStartedComponent {
   }
 
   getMenuItems() {
-    this.pageName = this.route.snapshot.data['label'] || 'Getting Started';
-
     this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs`)
     .subscribe(res => {
       this.directories = res;
-
-      // this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}`)
-      // .subscribe(res2 => {
-      //   this.subDirectories = res2;
-      //   console.log(this.subDirectories);
-      // })
     });
   }
 
@@ -65,8 +56,6 @@ export class GetStartedComponent {
         res.forEach(item => {
           if (item.type == 'dir') {
             this.showDirectoryFiles(item);
-            this.subDirectories = item;
-            console.log(this.subDirectories);
           } else if (item.type == 'file') {
             this.pageUrl = this.getDownloadUrl(item);
           }
@@ -75,10 +64,6 @@ export class GetStartedComponent {
     });
   }
 
-  check(value:any) {
-    value as string
-    return value.includes(this.pageName)
-  }
   showDirectoryFiles(item: any) {
     this.http.get(`https://api.github.com/repos/${this.repoName}/contents/docs/${this.pageName}/${item.name}`)
     .subscribe(res => {
